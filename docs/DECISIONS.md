@@ -86,10 +86,18 @@ third-party requests (kickoff §10, no tracking).
 - **Governing law:** Delaware, where Crafty Machine LLC is organized, with
   Delaware courts as the venue.
 
-## 2026-11-25 — The Pages build runs on ubuntu-24.04
+## 2026-11-25 — Ruby 3.4.13, with the rest of the ecosystem
 
 `ubuntu-latest` became 26.04, where `ruby/setup-ruby` only has the newest
-patch of each Ruby series (3.4.13), so the first deploys failed on the
-ecosystem's 3.4.5 pin. The build job is pinned to `ubuntu-24.04`, which
-still has 3.4.5. When the ecosystem bumps Ruby, bump `.ruby-version` here
-and go back to `ubuntu-latest`. (The other apps' CI fails the same way.)
+patch of each Ruby series, so the first deploys failed on the ecosystem's
+3.4.5 pin (as did every other app's CI). Rather than pin the runner, the
+whole ecosystem moved to 3.4.13 the same day (RAILS_BOOTSTRAP.md: stay on the
+newest patch). The Pages build stays on `ubuntu-latest`.
+
+## 2026-11-25 — The app's own logo and icons
+
+The header, footer and favicon use the app's Silphium-seed logo and icons,
+copied from `communities/public/` (`logo.svg`, `icon.svg`, `icon.png`). The
+first build had a stand-in mark drawn for the site, made without noticing
+the app already had one. Copied, not linked: if the app's logo changes,
+copy it again.

@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Trellis">
+  <!-- Peach plate -->
+  <rect width="64" height="64" rx="14" fill="#faecd2"/>
+
+  <!-- Silphium seed: heart-shape outline with central seed-pod line.
+       Bold stroke so it stays legible at 16-32px tab sizes. -->
+  <g fill="none" stroke="#de5a4f" stroke-width="4" stroke-linejoin="round" stroke-linecap="round">
+    <path d="M32 53 C 9 38 9 17 22 17 C 28 17 31 20 32 25 C 33 20 36 17 42 17 C 55 17 55 38 32 53 Z"/>
+    <line x1="32" y1="25" x2="32" y2="49"/>
+  </g>
+</svg>

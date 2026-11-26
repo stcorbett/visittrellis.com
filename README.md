@@ -14,7 +14,7 @@ Pages.
 ## Stack
 
 - Static HTML, written as ERB templates and rendered by a small Ruby script
-- **Ruby** 3.4.5 (the ecosystem's pin) — build tooling only
+- **Ruby** 3.4.13 (the ecosystem's pin) — build tooling only
 - **Tailwind CSS** via the standalone binary (`tailwindcss-ruby`) — no Node
 - Plain JavaScript modules, only where a page needs them
 - **GitHub Pages**, custom domain `visittrellis.com`
@@ -33,7 +33,7 @@ serves. `_site/` is never committed by hand.
 ## Getting started
 
 ```sh
-bundle install   # Ruby 3.4.5; installs the Tailwind binary and webrick
+bundle install   # Ruby 3.4.13; installs the Tailwind binary and webrick
 bin/dev          # builds, watches src/, serves http://localhost:4008
 ```
 

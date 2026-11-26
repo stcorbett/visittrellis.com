@@ -17,7 +17,7 @@ never holds accounts or prices.
   Whichever is built first sets the pattern (`bin/build`, `bin/dev`,
   `bin/deploy`); the other copies it.
 - **House conventions:** `~/work/culture_studio/ecosystem_docs/RAILS_BOOTSTRAP.md`.
-  The parts that apply here: Ruby 3.4.5, Tailwind via the standalone binary,
+  The parts that apply here: Ruby 3.4.13, Tailwind via the standalone binary,
   no Node, bare-bones JS, Ruby `bin/` scripts, README shape, and
   **Git: stage, don't commit**. The Rails, Postgres and Heroku parts don't
   apply.
