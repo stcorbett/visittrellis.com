@@ -1,0 +1,112 @@
+/* Tailwind scans src/ (pages, layouts, partials) for class names. */
+@import "tailwindcss" source("../");
+
+/* Self-hosted (latin subset, variable weight) so the page makes no
+   third-party requests. Both are SIL Open Font License. */
+@font-face {
+  font-family: "Fraunces";
+  src: url("fonts/fraunces-latin.woff2") format("woff2");
+  font-weight: 500 700;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Nunito";
+  src: url("fonts/nunito-latin.woff2") format("woff2");
+  font-weight: 400 800;
+  font-display: swap;
+}
+
+/* Tokens copied from the app (communities/app/assets/tailwind/application.css)
+   so the sales page and the app read as one product. Keep them in step. */
+@theme {
+  --color-coral-50:  #fff4f0;
+  --color-coral-100: #ffe6dd;
+  --color-coral-200: #ffcbb9;
+  --color-coral-300: #ff9d87;
+  --color-coral-400: #f17961;
+  --color-coral-500: #de5a4f;
+  --color-coral-600: #c0432e;
+  --color-coral-700: #983323;
+  --color-coral-800: #76281e;
+  --color-coral-900: #561d17;
+
+  --color-sun-100: #fff3c2;
+  --color-sun-200: #ffe293;
+  --color-sun-300: #ffce55;
+  --color-sun-400: #f3b62b;
+  --color-sun-500: #d29516;
+
+  --color-peach-50:  #fcf6ea;
+  --color-peach-100: #faecd2;
+  --color-peach-200: #f4d7a8;
+
+  --color-sage-100: #eef0e6;
+  --color-sage-200: #d5dac0;
+  --color-sage-300: #b8c19c;
+  --color-sage-400: #94a075;
+  --color-sage-500: #768455;
+  --color-sage-700: #4a5436;
+
+  --color-link-500: var(--color-coral-500);
+  --color-link-700: var(--color-coral-700);
+  --color-link-800: var(--color-coral-800);
+
+  --color-ink:       #2f221e;
+  --color-ink-muted: #6a554b;
+
+  --font-display: "Fraunces", ui-serif, Georgia, serif;
+  --font-sans:    "Nunito", ui-sans-serif, system-ui, sans-serif;
+}
+
+@layer components {
+  /* The app's sign-in background, so arriving there feels continuous. */
+  .bg-warm-aurora {
+    background-color: var(--color-peach-50);
+    background-image:
+      radial-gradient(at 15% 5%,  var(--color-coral-200) 0%, transparent 45%),
+      radial-gradient(at 85% 95%, var(--color-sun-200)   0%, transparent 50%),
+      radial-gradient(at 5% 92%,  var(--color-sage-200)  0%, transparent 42%),
+      radial-gradient(at 50% 50%, #ffffff90 0%, transparent 60%);
+  }
+
+  .btn-warm-primary {
+    @apply inline-flex items-center justify-center gap-2 rounded-2xl bg-coral-500 px-6 py-3.5
+           text-base font-semibold text-white transition
+           hover:bg-coral-600 active:scale-[0.99] focus:outline-none focus-visible:ring-4 focus-visible:ring-coral-200;
+    box-shadow: 0 10px 24px -8px rgba(222, 90, 79, 0.45);
+  }
+
+  .btn-warm-ghost {
+    @apply inline-flex items-center justify-center gap-2 rounded-2xl border border-coral-200
+           bg-white/60 px-6 py-3 text-base font-semibold text-coral-700 transition
+           hover:bg-coral-50 focus:outline-none focus-visible:ring-4 focus-visible:ring-coral-200;
+  }
+
+  .link-warm {
+    @apply font-semibold text-link-700 underline-offset-2 hover:text-link-800 hover:underline;
+  }
+
+  .card {
+    @apply rounded-2xl border border-gray-200 bg-white p-6;
+  }
+
+  /* Section heading with the short theme-colour bar from the style guide's
+     "sections that should pull people in". */
+  .section-title {
+    @apply flex items-center gap-3 font-display text-3xl text-ink sm:text-4xl;
+  }
+  .section-title::before {
+    content: "";
+    @apply h-8 w-1.5 shrink-0 rounded-full bg-link-500;
+  }
+
+  /* Long-form text: terms and privacy. */
+  .prose-warm {
+    @apply max-w-3xl space-y-4 leading-relaxed text-ink;
+  }
+  .prose-warm h2 { @apply pt-6 font-display text-2xl text-ink; }
+  .prose-warm h3 { @apply pt-2 text-lg font-bold text-ink; }
+  .prose-warm ul { @apply list-disc space-y-2 pl-6; }
+  .prose-warm a  { @apply font-semibold text-link-700 hover:underline; }
+  .prose-warm strong { @apply font-bold; }
+}

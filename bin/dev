@@ -1,0 +1,54 @@
+#!/usr/bin/env ruby
+# Builds the site, serves _site/ at http://localhost:4008, and rebuilds
+# whenever anything under src/ changes. Refresh the browser to see it.
+#
+#   bin/dev            # port 4008 (the ecosystem port table, RAILS_BOOTSTRAP.md)
+#   PORT=4100 bin/dev  # somewhere else
+
+require "pathname"
+require "webrick"
+
+ROOT = Pathname.new(__dir__).parent
+PORT = Integer(ENV.fetch("PORT", 4008))
+
+def build = system((ROOT / "bin" / "build").to_s) || warn("bin/dev: build failed; still serving the last good one")
+def snapshot = Dir[ROOT / "src" / "**" / "*"].to_h { [it, File.mtime(it)] }
+
+build
+
+Thread.new do
+  seen = snapshot
+  loop do
+    sleep 0.5
+    now = snapshot
+    next if now == seen
+    seen = now
+    build
+  end
+end
+
+SITE = ROOT / "_site"
+server = WEBrick::HTTPServer.new(
+  Port: PORT, BindAddress: "127.0.0.1",
+  AccessLog: [], Logger: WEBrick::Log.new($stderr, WEBrick::Log::WARN)
+)
+# Serves _site/ the way GitHub Pages does: folder/ → folder/index.html,
+# folder → redirect to folder/, anything else missing → 404.html.
+server.mount_proc("/") do |req, res|
+  rel  = WEBrick::HTTPUtils.unescape(req.path).delete_prefix("/")
+  file = (SITE / rel).expand_path
+  file = SITE / "404.html" unless file.to_s.start_with?(SITE.to_s) # no ../ escapes
+  if file.directory? && !req.path.end_with?("/")
+    res.set_redirect(WEBrick::HTTPStatus::MovedPermanently, "#{req.path}/")
+  end
+  file /= "index.html" if file.directory?
+  unless file.file?
+    res.status = 404
+    file = SITE / "404.html"
+  end
+  res.content_type = WEBrick::HTTPUtils.mime_type(file.to_s, WEBrick::HTTPUtils::DefaultMimeTypes)
+  res.body = file.binread
+end
+trap("INT") { server.shutdown }
+puts "bin/dev: serving http://localhost:#{PORT} (watching src/, Ctrl-C to stop)"
+server.start

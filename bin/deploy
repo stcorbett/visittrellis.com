@@ -1,0 +1,38 @@
+#!/usr/bin/env ruby
+# Builds and checks the site, then publishes it to GitHub Pages.
+#
+#   bin/deploy --dry-run   # build + checks only; publishes nothing
+#   bin/deploy             # build + checks, then push main to GitHub
+#
+# Publishing is done by GitHub: pushing main runs .github/workflows/pages.yml,
+# which builds and checks again on a clean machine and deploys _site/. So
+# what's live is always exactly what's on main. This script makes sure the
+# push is worth making: clean working tree, on main, checks passing.
+# See docs/DEPLOY.md and docs/DECISIONS.md (2026-11-20).
+
+require "pathname"
+
+ROOT    = Pathname.new(__dir__).parent
+dry_run = ARGV.include?("--dry-run")
+
+def run!(*cmd) = system(*cmd, chdir: ROOT.to_s) || abort("bin/deploy: `#{cmd.join(" ")}` failed")
+def out(*cmd)  = IO.popen(cmd, chdir: ROOT.to_s, &:read).strip
+
+run! "bin/build"
+run! "bin/check"
+
+if dry_run
+  puts "bin/deploy: dry run — checks passed, nothing published"
+  exit
+end
+
+abort "bin/deploy: not on main" unless out("git", "branch", "--show-current") == "main"
+abort "bin/deploy: uncommitted changes — commit first, then deploy" unless out("git", "status", "--porcelain").empty?
+abort "bin/deploy: no 'origin' remote — see docs/DEPLOY.md §1" if out("git", "remote").split.none?("origin")
+
+run! "git", "push", "origin", "main"
+puts "bin/deploy: pushed; GitHub Actions is publishing it."
+if system("which gh > /dev/null 2>&1")
+  sleep 3
+  system("gh", "run", "watch", "--exit-status", chdir: ROOT.to_s) # picks the latest run interactively
+end

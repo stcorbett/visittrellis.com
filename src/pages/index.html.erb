@@ -1,0 +1,197 @@
+<% page title: "Trellis",
+        description: "Trellis: empowering you to create in community. A secure platform, free for community organizations, shaped around how your organization works: run events, coordinate volunteers and members, raise money, and report on the work, in one place." %>
+<%
+  audiences = [
+    ["Non-profits and b-corps",
+     "Small staff, big community. Keep members, volunteers, partners and donors in one place instead of six spreadsheets."],
+    ["Networks with chapters",
+     "A national network and its local chapters share one system. Each chapter runs its own work; the network sees the whole picture."],
+    ["Volunteer-run events",
+     "Festivals, gatherings and community events that live on volunteers, artists and the people who make the weekend happen."],
+    ["Programs that deliver",
+     "Mutual aid, supply drives and delivery programs that need to know what was asked for, what went out, and where it went."],
+  ]
+
+  features = [
+    ["Events, start to finish",
+     "A public page for every event at a short address of your own. Tickets, teams and shifts, volunteer and artist applications, calls for submissions, and check-in on the day.",
+     "M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5"],
+    ["Volunteers and members",
+     "Applications your staff can review and approve, roles that decide who sees what, and a profile for everyone, so the people who show up are known by name.",
+     "M15 19.128a9.38 9.38 0 0 0 2.625.372 9.337 9.337 0 0 0 4.121-.952 4.125 4.125 0 0 0-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 0 1 8.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0 1 11.964-3.07M12 6.375a3.375 3.375 0 1 1-6.75 0 3.375 3.375 0 0 1 6.75 0Zm8.25 2.25a2.625 2.625 0 1 1-5.25 0 2.625 2.625 0 0 1 5.25 0Z"],
+    ["Your work, recorded",
+     "Workflows shaped like the work you already do, with your own fields: requests, deliveries, submissions and drives, each with a history. Enter one at a time or a whole batch, and see it all as a spreadsheet.",
+     "M9 12h3.75M9 15h3.75M9 18h3.75m3 .75H18a2.25 2.25 0 0 0 2.25-2.25V6.108c0-1.135-.845-2.098-1.976-2.192a48.424 48.424 0 0 0-1.123-.08m-5.801 0c-.065.21-.1.433-.1.664 0 .414.336.75.75.75h4.5a.75.75 0 0 0 .75-.75 2.25 2.25 0 0 0-.1-.664m-5.8 0A2.251 2.251 0 0 1 13.5 2.25H15c1.012 0 1.867.668 2.15 1.586m-5.8 0c-.376.023-.75.05-1.124.08C9.095 4.01 8.25 4.973 8.25 6.108V8.25m0 0H4.875c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125V9.375c0-.621-.504-1.125-1.125-1.125H8.25Z"],
+    ["Surveys and messages",
+     "Ask your community what they think, in more than one language. Send announcements and email campaigns from the same place your people already live.",
+     "M21.75 6.75v10.5a2.25 2.25 0 0 1-2.25 2.25h-15a2.25 2.25 0 0 1-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25m19.5 0v.243a2.25 2.25 0 0 1-1.07 1.916l-7.5 4.615a2.25 2.25 0 0 1-2.36 0L3.32 8.91a2.25 2.25 0 0 1-1.07-1.916V6.75"],
+    ["Reports that tell the story",
+     "Budgets, reconciliation and the numbers your board and funders ask for, built from the records you kept along the way instead of a scramble at year end.",
+     "M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 0 1 3 19.875v-6.75ZM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V8.625ZM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V4.125Z"],
+    ["Yours, in every sense",
+     "Your colours and your words for things. And your data stays yours: export it or take a full backup whenever you like.",
+     "M9 12.75 11.25 15 15 9.75m-3-7.036A11.959 11.959 0 0 1 3.598 6 11.99 11.99 0 0 0 3 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285Z"],
+  ]
+
+  benefits = [
+    ["Free for community organizations",
+     "Community work runs on tight budgets, so Trellis costs your organization nothing, and it replaces the pile of tools a small team ends up paying for.",
+     ["Events, volunteers, members, surveys, email and reports in one place, instead of a separate subscription for each.",
+      "No servers to run, no IT staff to hire, no developer on call. We host it, update it and back it up.",
+      "Less time copying between spreadsheets means more of your people's hours go to the community itself."]],
+    ["A secure platform",
+     "You hold information about real people who trust you with it. Trellis is built to keep it safe.",
+     ["Every network's data is kept separate from every other's, and each person sees only what their role allows.",
+      "Encrypted in transit, with sensitive details like phone numbers encrypted in the database too.",
+      "A full history of changes, regular backups, and an export of your data whenever you want it."]],
+  ]
+
+  fit = [
+    ["Your organization, modelled your way",
+     "Define the kinds of people, partners, places, items, events and workflows your organization actually has, each with the fields you need. Trellis doesn't hand you a generic contact list and ask you to make do."],
+    ["Screens that match the work",
+     "A chapter lead opens Trellis to the two things they do most. A volunteer sees their shifts. An organizer sees the whole network. Records, calendars, spreadsheets and reports are all views of the same data, arranged around the job at hand."],
+    ["Built with you, from day one",
+     "Starting with Trellis means working with us. We learn how your organization runs and build the extra tools it needs to fit: a new workflow, a report your funders ask for, a screen for the job your team does every week. Fitting it to you is our job, not a consultant you have to hire."],
+    ["And it keeps getting better",
+     "What we build with one organization becomes part of Trellis, so every network gets better tools over time without paying for a custom system or maintaining one."],
+  ]
+
+  steps = [
+    ["Create your account", "An email and a password, or sign in with Google."],
+    ["Name your network", "You're its owner. Pick its colours and the parts of Trellis you need."],
+    ["Shape it with us", "We sit down with you, model how your organization works, and build what's missing."],
+    ["Invite your people", "Staff, volunteers and members each get the view their role should have, then run your first event."],
+  ]
+%>
+
+<section class="mx-auto max-w-6xl px-4 pb-20 pt-12 sm:px-6 sm:pt-20">
+  <div class="max-w-3xl space-y-6">
+    <p class="inline-flex rounded-full bg-white/70 px-3 py-1 text-sm font-semibold text-coral-700 ring-1 ring-coral-100">A warm, modern home for community organizations</p>
+    <h1 class="font-display text-4xl leading-tight text-ink sm:text-6xl">Empowering you to create in community.</h1>
+    <p class="text-lg leading-relaxed text-ink-muted sm:text-xl">
+      Trellis is where non-profits, chapters and volunteer-run networks do their work: run events, coordinate
+      volunteers and members, raise money, and report on what they've done. It bends to the way your
+      organization already works, with screens for your data that match how your people think about it.
+    </p>
+    <div class="flex flex-col gap-3 pt-2 sm:flex-row">
+      <a href="<%= Site::SIGN_UP %>" class="btn-warm-primary">
+        Start your network
+        <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"/></svg>
+      </a>
+      <a href="<%= Site::SIGN_IN %>" class="btn-warm-ghost">Sign in</a>
+    </div>
+    <p class="text-sm text-ink-muted">Free for community organizations. No credit card.</p>
+  </div>
+</section>
+
+<section aria-labelledby="why" class="mx-auto max-w-6xl px-4 pb-12 sm:px-6">
+  <h2 id="why" class="sr-only">Why Trellis</h2>
+  <div class="grid gap-5 lg:grid-cols-2">
+    <% benefits.each do |title, lead, points| %>
+      <div class="card space-y-4 p-8">
+        <h3 class="font-display text-2xl text-link-700"><%= title %></h3>
+        <p class="text-lg text-ink"><%= lead %></p>
+        <ul class="space-y-2 text-ink-muted">
+          <% points.each do |point| %>
+            <li class="flex gap-2">
+              <svg class="mt-1 h-4 w-4 shrink-0 text-sage-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5"/></svg>
+              <span><%= point %></span>
+            </li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+  </div>
+</section>
+
+<section aria-labelledby="fit" class="mx-auto max-w-6xl px-4 py-12 sm:px-6">
+  <h2 id="fit" class="section-title">Shaped around how you work</h2>
+  <p class="mt-4 max-w-3xl text-lg text-ink-muted">
+    Big platforms promise they can do anything, then leave you to hire someone to make them do it. Most
+    community tools go the other way: simple, but you bend your work to fit them. Trellis is a deeply
+    customizable system that gives you the right view of your data for every job, and we do the
+    customizing with you.
+  </p>
+  <div class="mt-8 grid gap-5 md:grid-cols-2">
+    <% fit.each do |title, body| %>
+      <div class="card space-y-2">
+        <h3 class="text-lg font-bold text-link-700"><%= title %></h3>
+        <p class="text-ink-muted"><%= body %></p>
+      </div>
+    <% end %>
+  </div>
+</section>
+
+<section aria-labelledby="who" class="mx-auto max-w-6xl px-4 py-12 sm:px-6">
+  <h2 id="who" class="section-title">Who it's for</h2>
+  <p class="mt-4 max-w-2xl text-lg text-ink-muted">
+    Organizations that run on relationships, not transactions, and have outgrown the shared drive.
+  </p>
+  <div class="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+    <% audiences.each do |title, body| %>
+      <div class="card space-y-2">
+        <h3 class="text-lg font-bold text-link-700"><%= title %></h3>
+        <p class="text-ink-muted"><%= body %></p>
+      </div>
+    <% end %>
+  </div>
+</section>
+
+<section id="what-it-does" aria-labelledby="what" class="mx-auto max-w-6xl scroll-mt-6 px-4 py-12 sm:px-6">
+  <h2 id="what" class="section-title">What it does</h2>
+  <p class="mt-4 max-w-2xl text-lg text-ink-muted">
+    The problems that eat a small team's week, solved in the same place: who's coming, who's helping, what
+    happened, and what it added up to.
+  </p>
+  <div class="mt-8 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+    <% features.each do |title, body, icon| %>
+      <div class="card space-y-3">
+        <span class="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-coral-50 text-coral-600">
+          <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="<%= icon %>"/></svg>
+        </span>
+        <h3 class="text-lg font-bold text-ink"><%= title %></h3>
+        <p class="text-ink-muted"><%= body %></p>
+      </div>
+    <% end %>
+  </div>
+</section>
+
+<section aria-labelledby="start" class="mx-auto max-w-6xl px-4 py-12 sm:px-6">
+  <h2 id="start" class="section-title">How it starts</h2>
+  <ol class="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+    <% steps.each_with_index do |(title, body), i| %>
+      <li class="card space-y-2">
+        <span class="inline-flex h-8 w-8 items-center justify-center rounded-full bg-sun-200 font-bold text-ink"><%= i + 1 %></span>
+        <h3 class="text-lg font-bold text-ink"><%= title %></h3>
+        <p class="text-ink-muted"><%= body %></p>
+      </li>
+    <% end %>
+  </ol>
+  <div class="mt-8">
+    <a href="<%= Site::SIGN_UP %>" class="btn-warm-primary">Start your network</a>
+  </div>
+</section>
+
+<section aria-labelledby="customers" class="mx-auto max-w-6xl px-4 py-12 sm:px-6">
+  <div class="card grid gap-8 p-8 sm:p-10 lg:grid-cols-[1fr_auto] lg:items-center">
+    <div class="space-y-4">
+      <h2 id="customers" class="font-display text-3xl text-ink">Built alongside the people who use it</h2>
+      <p class="max-w-2xl text-lg text-ink-muted">
+        Trellis grew out of working shoulder to shoulder with community organizations. Most of what's in
+        it exists because a network we work with needed it, asked for it, and helped us get it right. We know our
+        customers by name, and they know us.
+      </p>
+    </div>
+    <a href="<%= path("customers/") %>" class="btn-warm-ghost">Meet our customers</a>
+  </div>
+</section>
+
+<section aria-labelledby="contact" class="mx-auto max-w-6xl px-4 py-12 sm:px-6">
+  <h2 id="contact" class="section-title">Get in touch</h2>
+  <p class="mt-4 max-w-2xl text-lg text-ink-muted">
+    Want a walk-through, help moving your spreadsheets in, or to talk about whether Trellis fits? Write to us at
+    <a class="link-warm" href="mailto:<%= Site::CONTACT_EMAIL %>"><%= Site::CONTACT_EMAIL %></a>. A person
+    reads every message.
+  </p>
+</section>

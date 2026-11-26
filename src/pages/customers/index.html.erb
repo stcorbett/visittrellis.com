@@ -1,0 +1,78 @@
+<% page title: "Customers",
+        description: "The community organizations that run on Trellis, and how we work with them: as partners, not tickets." %>
+<%
+  kinds = [
+    ["National networks and their chapters",
+     "Networks with a chapter in every city use Trellis to give each chapter its own home while the network keeps one picture of the whole: who's active, what's been delivered, and where help is needed next."],
+    ["Community events and gatherings",
+     "Volunteer-run festivals and gatherings use it to publish their event pages, recruit and schedule volunteers, take artist and vendor applications, and check people in on the day."],
+    ["Mutual aid and delivery programs",
+     "Programs that collect and deliver supplies use it to track what partner agencies have asked for, plan deliveries against those requests, and record every drop-off."],
+    ["Non-profits and b-corps",
+     "Small teams use it as the place where members, volunteers, partners, surveys and reports finally live together."],
+  ]
+
+  practices = [
+    ["We set it up with you",
+     "Every new network gets a person, not a help-centre article. We sit down with you, learn how your work actually runs, and shape Trellis around it: your roles, your workflows, your fields, your words for things."],
+    ["We build what's missing",
+     "When your work needs something Trellis doesn't do yet, we build it with you as part of getting started: a new workflow, a report, a screen for the job your team does every week. You don't hire a consultant to customize a platform. That's what we're here for."],
+    ["We bring your history in",
+     "Most organizations arrive with years of spreadsheets. We help move them in, so the first day in Trellis already has your people and your past in it."],
+    ["Your requests become the product",
+     "Much of Trellis exists because a customer asked. The Budget and Reconciliation report mirrors the spreadsheet our networks already kept. Bulk recording, delivery goals and multilingual surveys all started as a conversation with the people who needed them."],
+    ["We stay",
+     "We keep talking after launch: check-ins through your busy season, a direct line when something goes wrong, and a seat at the table when we decide what to build next."],
+  ]
+%>
+
+<section class="mx-auto max-w-6xl px-4 pb-12 pt-12 sm:px-6 sm:pt-20">
+  <div class="max-w-3xl space-y-6">
+    <h1 class="font-display text-4xl leading-tight text-ink sm:text-5xl">Our customers are our partners.</h1>
+    <p class="text-lg leading-relaxed text-ink-muted sm:text-xl">
+      Trellis is used by community organizations of every shape: national networks and their chapters,
+      volunteer-run events, mutual aid programs, non-profits and b-corps. We don't think of them as accounts.
+      We know their organizers by name, we've sat in their planning meetings, and a great deal of Trellis was
+      built because one of them showed us what they needed.
+    </p>
+  </div>
+</section>
+
+<section aria-labelledby="who-uses" class="mx-auto max-w-6xl px-4 py-12 sm:px-6">
+  <h2 id="who-uses" class="section-title">Who runs on Trellis</h2>
+  <div class="mt-8 grid gap-5 md:grid-cols-2">
+    <% kinds.each do |title, body| %>
+      <div class="card space-y-2">
+        <h3 class="text-lg font-bold text-link-700"><%= title %></h3>
+        <p class="text-ink-muted"><%= body %></p>
+      </div>
+    <% end %>
+  </div>
+</section>
+
+<section aria-labelledby="how-we-work" class="mx-auto max-w-6xl px-4 py-12 sm:px-6">
+  <h2 id="how-we-work" class="section-title">How we work together</h2>
+  <div class="mt-8 grid gap-5 md:grid-cols-2">
+    <% practices.each do |title, body| %>
+      <div class="card space-y-2">
+        <h3 class="text-lg font-bold text-ink"><%= title %></h3>
+        <p class="text-ink-muted"><%= body %></p>
+      </div>
+    <% end %>
+  </div>
+</section>
+
+<section aria-labelledby="privacy-note" class="mx-auto max-w-6xl px-4 py-12 sm:px-6">
+  <div class="card space-y-3 p-8 sm:p-10">
+    <h2 id="privacy-note" class="font-display text-2xl text-ink">Why you won't see logos here</h2>
+    <p class="max-w-3xl text-ink-muted">
+      The organizations we work with hold sensitive information about the people they serve, and many of them
+      prefer to keep the tools behind their work quiet. We don't name a customer without their permission. If
+      you'd like to talk to someone already running on Trellis, ask us and we'll introduce you to a network like yours.
+    </p>
+    <div class="flex flex-col gap-3 pt-2 sm:flex-row">
+      <a href="mailto:<%= Site::CONTACT_EMAIL %>?subject=Introduce%20me%20to%20a%20Trellis%20network" class="btn-warm-ghost">Ask for an introduction</a>
+      <a href="<%= Site::SIGN_UP %>" class="btn-warm-primary">Start your network</a>
+    </div>
+  </div>
+</section>

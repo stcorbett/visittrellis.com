@@ -1,0 +1,88 @@
+#!/usr/bin/env ruby
+# Renders src/ into _site/, the folder GitHub Pages serves.
+#
+#   src/pages/**/*.html.erb  → _site/**/*.html, each wrapped in src/layouts/application.html.erb
+#   src/css/application.css  → _site/assets/site.css (Tailwind standalone binary)
+#   src/static/**            → _site/** as is (CNAME, .nojekyll, favicon, robots.txt)
+#
+# Links between pages are relative (see Page#path), so the build works both at
+# visittrellis.com/ and at the stcorbett.github.io/visittrellis.com/ preview.
+
+require "erb"
+require "fileutils"
+require "pathname"
+require_relative "../src/site"
+
+ROOT   = Pathname.new(__dir__).parent
+SRC    = ROOT / "src"
+OUT    = ROOT / "_site"
+LAYOUT = SRC / "layouts" / "application.html.erb"
+
+class Page
+  attr_reader :source, :output, :meta
+
+  def initialize(source)
+    @source = source
+    @output = Pathname.new(source.relative_path_from(SRC / "pages").to_s.delete_suffix(".erb"))
+    @meta   = {}
+  end
+
+  # Called at the top of every page: <% page title: "…", description: "…" %>
+  #   absolute_links: true — for 404.html, which GitHub serves at any depth,
+  #   so relative links can't work; it links from the domain root instead.
+  def page(**meta) = @meta.merge!(meta) && nil
+
+  # A link to another page of the site, relative to this one.
+  #   path("")        → "./" or "../"
+  #   path("terms/")  → "terms/" or "../terms/"
+  def path(to = "")
+    return "/#{to}" if meta[:absolute_links]
+    prefix = "../" * (output.each_filename.count - 1)
+    (prefix + to).then { it.empty? ? "./" : it }
+  end
+
+  def asset(name) = path("assets/#{name}")
+
+  def current?(to) = output.to_s == (to.empty? ? "index.html" : "#{to}index.html")
+
+  def partial(name, **locals)
+    template = SRC / "partials" / "_#{name}.html.erb"
+    b = binding
+    locals.each { |k, v| b.local_variable_set(k, v) }
+    ERB.new(template.read, trim_mode: "-").result(b)
+  end
+
+  def render
+    body = ERB.new(source.read, trim_mode: "-").result(binding)
+    raise "#{source}: needs <% page title: …, description: … %>" unless meta[:title] && meta[:description]
+    with_layout { body }
+  end
+
+  # The layout calls `yield` for the page body.
+  def with_layout = ERB.new(LAYOUT.read, trim_mode: "-").result(binding)
+end
+
+def build_css
+  require "tailwindcss/ruby"
+  ok = system(Tailwindcss::Ruby.executable, "--input", (SRC / "css" / "application.css").to_s,
+              "--output", (OUT / "assets" / "site.css").to_s, "--minify",
+              chdir: ROOT.to_s, out: File::NULL, err: File::NULL)
+  abort "bin/build: tailwindcss failed — run it by hand to see why" unless ok
+end
+
+started = Time.now
+FileUtils.rm_rf(OUT)
+FileUtils.mkdir_p(OUT / "assets")
+
+FileUtils.cp_r("#{SRC / "static"}/.", OUT)
+
+pages = Dir[SRC / "pages" / "**" / "*.html.erb"].sort.map { Page.new(Pathname.new(it)) }
+pages.each do |page|
+  dest = OUT / page.output
+  FileUtils.mkdir_p(dest.dirname)
+  dest.write(page.render)
+end
+
+build_css
+
+puts "bin/build: #{pages.size} pages → _site/ in #{((Time.now - started) * 1000).round} ms"

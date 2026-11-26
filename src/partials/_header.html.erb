@@ -1,0 +1,12 @@
+<header class="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-x-6 gap-y-3 px-4 py-5 sm:px-6">
+  <a href="<%= path %>" class="flex items-center gap-2" aria-label="Trellis home">
+    <%= partial "logo", size: "h-8 w-8" %>
+    <span class="font-display text-2xl tracking-tight text-ink">Trellis</span>
+  </a>
+  <nav aria-label="Main" class="flex flex-wrap items-center gap-x-5 gap-y-2 text-sm font-semibold">
+    <a href="<%= path %>#what-it-does" class="text-ink-muted hover:text-ink">What it does</a>
+    <a href="<%= path("customers/") %>" class="<%= current?("customers/") ? "text-ink" : "text-ink-muted" %> hover:text-ink"<%= ' aria-current="page"' if current?("customers/") %>>Customers</a>
+    <a href="<%= Site::SIGN_IN %>" class="text-link-700 hover:underline">Sign in</a>
+    <a href="<%= Site::SIGN_UP %>" class="rounded-xl bg-coral-500 px-4 py-2 text-white shadow-sm hover:bg-coral-600">Start your network</a>
+  </nav>
+</header>

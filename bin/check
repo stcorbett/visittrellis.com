@@ -1,0 +1,51 @@
+#!/usr/bin/env ruby
+# Checks the built site in _site/ (run bin/build first). Exits non-zero on
+# any problem, so bin/deploy and the Pages workflow stop before publishing.
+#
+#   - every page has a <title> and a meta description
+#   - every relative link, stylesheet, script and image resolves to a file
+#   - links into the app only go to app.visittrellis.com
+#   - nothing from src/ (no .erb) leaked into the output
+#   - CNAME says visittrellis.com
+
+require "pathname"
+require "uri"
+
+OUT = Pathname.new(__dir__).parent / "_site"
+abort "bin/check: no _site/ — run bin/build first" unless OUT.directory?
+
+problems = []
+pages = Dir[OUT / "**" / "*.html"].map { Pathname.new(it) }
+
+pages.each do |file|
+  html = file.read
+  rel  = file.relative_path_from(OUT)
+  problems << "#{rel}: no <title>" unless html.match?(%r{<title>[^<]+</title>})
+  problems << "#{rel}: no meta description" unless html.match?(/<meta name="description" content="[^"]+"/)
+
+  html.scan(/(?:href|src)="([^"]+)"/).flatten.uniq.each do |link|
+    next if link.start_with?("mailto:", "#")
+    if link.match?(%r{\Ahttps?://})
+      host = URI(link).host
+      problems << "#{rel}: plain http link #{link}" if link.start_with?("http://")
+      problems << "#{rel}: unexpected visittrellis host #{link}" if host.end_with?("visittrellis.com") &&
+        !%w[visittrellis.com app.visittrellis.com].include?(host)
+      next
+    end
+    target = link.split(/[?#]/).first
+    next if target.nil? || target.empty?
+    path = target.start_with?("/") ? OUT / target.delete_prefix("/") : file.dirname / target
+    path /= "index.html" if target.end_with?("/") || path.directory?
+    problems << "#{rel}: broken link #{link}" unless path.file?
+  end
+end
+
+Dir[OUT / "**" / "*.erb"].each { problems << "template in output: #{Pathname.new(it).relative_path_from(OUT)}" }
+problems << "CNAME is not visittrellis.com" unless (OUT / "CNAME").file? && (OUT / "CNAME").read.strip == "visittrellis.com"
+
+if problems.empty?
+  puts "bin/check: #{pages.size} pages OK"
+else
+  puts problems.map { "  ✗ #{it}" }
+  abort "bin/check: #{problems.size} problem(s)"
+end
