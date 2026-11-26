@@ -85,3 +85,11 @@ third-party requests (kickoff §10, no tracking).
   copy just says free.
 - **Governing law:** Delaware, where Crafty Machine LLC is organized, with
   Delaware courts as the venue.
+
+## 2026-11-25 — The Pages build runs on ubuntu-24.04
+
+`ubuntu-latest` became 26.04, where `ruby/setup-ruby` only has the newest
+patch of each Ruby series (3.4.13), so the first deploys failed on the
+ecosystem's 3.4.5 pin. The build job is pinned to `ubuntu-24.04`, which
+still has 3.4.5. When the ecosystem bumps Ruby, bump `.ruby-version` here
+and go back to `ubuntu-latest`. (The other apps' CI fails the same way.)

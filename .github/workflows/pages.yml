@@ -19,7 +19,9 @@ concurrency:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    # Not ubuntu-latest: 26.04 only has the newest Ruby patch of each series
+    # prebuilt (3.4.13), and the ecosystem pins 3.4.5. Move with the pin.
+    runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
       - uses: ruby/setup-ruby@v1
